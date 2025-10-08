@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import "react-toastify/dist/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+// As imagens de fundo não foram alteradas, você pode mantê-las ou removê-las se não for usar.
 import lightBackground from '../src/assets/wa-background-light.png';
 import darkBackground from '../src/assets/wa-background-dark.jpg';
 import { ptBR } from "@material-ui/core/locale";
@@ -30,77 +31,94 @@ const App = () => {
         []
     );
 
+    // INÍCIO DA SEÇÃO ALTERADA: Paleta de Cores do ServidorON
     const theme = createTheme(
         {
+            // Cores principais da marca ServidorON
+            servidoron: {
+                blue: "#4682B4", // Azul principal do logo
+                white: "#FFFFFF",
+                lightGray: "#F5F5F5", // Cinza claro para fundos
+                darkGray: "#333333", // Cinza escuro para textos e elementos
+                black: "#121212" // Fundo do modo escuro
+            },
             scrollbarStyles: {
                 "&::-webkit-scrollbar": {
                     width: '8px',
                     height: '8px',
-					borderRadius: "8px",
+                    borderRadius: "8px",
                 },
                 "&::-webkit-scrollbar-thumb": {
                     boxShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.3)',
-                    backgroundColor: "#2DDD7F",
-					borderRadius: "8px",
+                    backgroundColor: "#4682B4", // Azul principal na barra de rolagem
+                    borderRadius: "8px",
                 },
             },
             scrollbarStylesSoft: {
                 "&::-webkit-scrollbar": {
                     width: "8px",
-					borderRadius: "8px",
+                    borderRadius: "8px",
                 },
                 "&::-webkit-scrollbar-thumb": {
                     backgroundColor: mode === "light" ? "#F3F3F3" : "#333333",
-					borderRadius: "8px",
+                    borderRadius: "8px",
                 },
             },
             palette: {
                 type: mode,
-                primary: { main: mode === "light" ? "#2DDD7F" : "#FFFFFF" },
-                quicktags: { main: mode === "light" ? "#2DDD7F" : "#2DDD7F" },
-				sair: { main: mode === "light" ? "#2DDD7F" : "#333" },
-				vcard: { main: mode === "light" ? "#2DDD7F" : "#666" },
-                textPrimary: mode === "light" ? "#2DDD7F" : "#FFFFFF",
-                borderPrimary: mode === "light" ? "#2DDD7F" : "#FFFFFF",
+                primary: { main: "#4682B4" }, // Azul principal em ambos os modos
+                secondary: { main: "#FFFFFF" }, // Cor secundária (pode ajustar conforme necessário)
+                quicktags: { main: "#4682B4" },
+                sair: { main: mode === "light" ? "#4682B4" : "#333" },
+                vcard: { main: mode === "light" ? "#4682B4" : "#666" },
+                textPrimary: mode === "light" ? "#333333" : "#FFFFFF", // Texto escuro no modo claro, branco no modo escuro
+                borderPrimary: "#4682B4",
                 dark: { main: mode === "light" ? "#333333" : "#F3F3F3" },
                 light: { main: mode === "light" ? "#F3F3F3" : "#333333" },
-                tabHeaderBackground: mode === "light" ? "#EEE" : "#666",
-                ticketlist: mode === "light" ? "#fafafa" : "#333",
-                optionsBackground: mode === "light" ? "#fafafa" : "#333",
-				options: mode === "light" ? "#fafafa" : "#666",
-				fontecor: mode === "light" ? "#128c7e" : "#fff",
-                fancyBackground: mode === "light" ? "#fafafa" : "#333",
-				bordabox: mode === "light" ? "#eee" : "#333",
-				newmessagebox: mode === "light" ? "#eee" : "#333",
-				inputdigita: mode === "light" ? "#fff" : "#666",
-				contactdrawer: mode === "light" ? "#fff" : "#666",
-				announcements: mode === "light" ? "#ededed" : "#333",
-				login: mode === "light" ? "#fff" : "#1C1C1C",
-				announcementspopover: mode === "light" ? "#fff" : "#666",
-				chatlist: mode === "light" ? "#eee" : "#666",
-				boxlist: mode === "light" ? "#ededed" : "#666",
-				boxchatlist: mode === "light" ? "#ededed" : "#333",
+                tabHeaderBackground: mode === "light" ? "#EEE" : "#222",
+                ticketlist: mode === "light" ? "#fafafa" : "#1C1C1C",
+                optionsBackground: mode === "light" ? "#fafafa" : "#1C1C1C",
+                options: mode === "light" ? "#fafafa" : "#333",
+                fontecor: mode === "light" ? "#4682B4" : "#fff",
+                fancyBackground: mode === "light" ? "#fafafa" : "#1C1C1C",
+                bordabox: mode === "light" ? "#eee" : "#333",
+                newmessagebox: mode === "light" ? "#eee" : "#1C1C1C",
+                inputdigita: mode === "light" ? "#fff" : "#333",
+                contactdrawer: mode === "light" ? "#fff" : "#222",
+                announcements: mode === "light" ? "#ededed" : "#1C1C1C",
+                login: mode === "light" ? "#fff" : "#121212",
+                announcementspopover: mode === "light" ? "#fff" : "#333",
+                chatlist: mode === "light" ? "#eee" : "#333",
+                boxlist: mode === "light" ? "#ededed" : "#333",
+                boxchatlist: mode === "light" ? "#ededed" : "#1C1C1C",
                 total: mode === "light" ? "#fff" : "#222",
                 messageIcons: mode === "light" ? "grey" : "#F3F3F3",
-                inputBackground: mode === "light" ? "#FFFFFF" : "#333",
-                barraSuperior: mode === "light" ? "linear-gradient(to right, #2DDD7F, #2DDD7F , #2DDD7F)" : "#666",
-				boxticket: mode === "light" ? "#EEE" : "#666",
-				campaigntab: mode === "light" ? "#ededed" : "#666",
-				mediainput: mode === "light" ? "#ededed" : "#1c1c1c",
-				contadordash: mode == "light" ? "#fff" : "#fff",
+                inputBackground: mode === "light" ? "#FFFFFF" : "#222",
+                barraSuperior: "linear-gradient(to right, #4682B4, #5A94C8, #4682B4)", // Gradiente com o azul
+                boxticket: mode === "light" ? "#EEE" : "#333",
+                campaigntab: mode === "light" ? "#ededed" : "#333",
+                mediainput: mode === "light" ? "#ededed" : "#1C1C1C",
+                contadordash: mode == "light" ? "#fff" : "#fff",
+                background: {
+                    default: mode === "light" ? "#FFFFFF" : "#121212", // Fundo principal
+                    paper: mode === "light" ? "#F5F5F5" : "#1E1E1E" // Fundo de "papéis" e cards
+                }
             },
             mode,
         },
         locale
     );
+    // FIM DA SEÇÃO ALTERADA
 
     useEffect(() => {
         const i18nlocale = localStorage.getItem("i18nextLng");
-        const browserLocale =
-            i18nlocale.substring(0, 2) + i18nlocale.substring(3, 5);
+        if (i18nlocale) {
+            const browserLocale =
+                i18nlocale.substring(0, 2) + i18nlocale.substring(3, 5);
 
-        if (browserLocale === "ptBR") {
-            setLocale(ptBR);
+            if (browserLocale === "ptBR") {
+                setLocale(ptBR);
+            }
         }
     }, []);
 
@@ -108,15 +126,13 @@ const App = () => {
         window.localStorage.setItem("preferredTheme", mode);
     }, [mode]);
 
-
-
     return (
         <ColorModeContext.Provider value={{ colorMode }}>
             <ThemeProvider theme={theme}>
                 <QueryClientProvider client={queryClient}>
-                  <SocketContext.Provider value={SocketManager}>
-                      <Routes />
-                  </SocketContext.Provider>
+                    <SocketContext.Provider value={SocketManager}>
+                        <Routes />
+                    </SocketContext.Provider>
                 </QueryClientProvider>
             </ThemeProvider>
         </ColorModeContext.Provider>
