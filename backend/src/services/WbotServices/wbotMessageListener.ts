@@ -1,3 +1,4 @@
+
 import * as Sentry from "@sentry/node";
 import { writeFile } from "fs";
 import { head, isNil } from "lodash";
@@ -536,13 +537,13 @@ const getSenderMessage = (
   return senderId && jidNormalizedUser(senderId);
 };
 
-const getContactMessage = async (msg: WAMessage, wbot: Session) => {
+const getContactMessage = async (msg: proto.IWebMessageInfo, wbot: Session) => {
   try {
     const isGroup = msg.key.remoteJid.includes("g.us");
 
     // Obter JID e LID usando as funções seguras do global.ts
-    const jid = await getJidFromMessage(msg, wbot);
-    const lid = await getLidFromMessage(msg, wbot);
+    const jid = await getJidFromMessage(msg as WAMessage, wbot);
+    const lid = await getLidFromMessage(msg as WAMessage, wbot);
 
     // Validação dos dados obtidos
     if (!jid || typeof jid !== 'string') {
@@ -583,7 +584,7 @@ const downloadMedia = async (msg: proto.IWebMessageInfo) => {
   let buffer
   try {
     buffer = await downloadMediaMessage(
-      msg,
+      msg as WAMessage,
       'buffer',
       {}
     )
@@ -1570,7 +1571,7 @@ export const handleRating = async (
 };
 
 
-const handleChartbot = async (ticket: Ticket, msg: WAMessage, wbot: Session, dontReadTheFirstQuestion = false) => {
+const handleChartbot = async (ticket: Ticket, msg: proto.IWebMessageInfo, wbot: Session, dontReadTheFirstQuestion = false) => {
   const queue = await Queue.findByPk(ticket.queueId, {
     include: [
       {
